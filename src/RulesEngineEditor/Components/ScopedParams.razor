@@ -9,11 +9,11 @@
 {
     if (scopedParams.Count > 0)
     {
-        <button class="reeditor_button @IsPressed(sort, "button_depressed")" @onclick="(() => sort = !sort)">Arrange</button>
+        <button class="reeditor_button @IsPressed(sort, "button_depressed")" @onclick="(() => sort = !sort)">排列</button>
         <span>&nbsp;</span>
         <sp_grid_kvp>
-            <div>Scoped Param Name</div>
-            <div>Expression</div>
+            <div>注入参数名称</div>
+            <div>表达式</div>
         </sp_grid_kvp>
     }
     @if (sort)

@@ -10,9 +10,9 @@
 
 <sp_grid_tabs>
     <div>
-        <button class="reeditor_menubutton @IsPressed(ShowWorkflows, "menubutton_depressed")" @onclick="(() => ShowWorkflows = true)">Workflows</button>
+        <button class="reeditor_menubutton @IsPressed(ShowWorkflows, "menubutton_depressed")" @onclick="(() => ShowWorkflows = true)">工作流</button>
     </div><div>
-        <button class="reeditor_menubutton @IsPressed(!ShowWorkflows, "menubutton_depressed")" @onclick="(() => ShowWorkflows = false)">Input Rule Parameters</button>
+        <button class="reeditor_menubutton @IsPressed(!ShowWorkflows, "menubutton_depressed")" @onclick="(() => ShowWorkflows = false)">输入规则参数</button>
     </div>
 </sp_grid_tabs>
 <br />
@@ -43,35 +43,35 @@
     </EditForm>
     @if (IsButtonEnabled("NewWorkflows"))
     {
-        <button title="New Workflows" class="reeditor_button" @onclick="NewWorkflows">Reset</button>
+        <button title="New Workflows" class="reeditor_button" @onclick="NewWorkflows">重置</button>
 
         <span>&nbsp;</span>
     }
     @if (IsButtonEnabled("DownloadWorkflows"))
     {
-        <a title="Download Workflows" class="reeditor_button" @attributes="@DownloadAttributes">Download</a>
+        <a title="Download Workflows" class="reeditor_button" @attributes="@DownloadAttributes">下载</a>
 
         <span>&nbsp;</span>
     }
     @if (IsButtonEnabled("ImportWorkflows"))
     {
-        <div class="reeditor_button"><InputFile title="Import Workflows" OnChange="@ImportWorkflows" />Import</div>
+        <div class="reeditor_button"><InputFile title="Import Workflows" OnChange="@ImportWorkflows" />导入</div>
 
         <span>&nbsp;</span>
     }
     @if (IsButtonEnabled("AddWorkflow"))
     {
-        <button title="Add Workflow" class="reeditor_button" @onclick="AddWorkflow">Add</button>
+        <button title="Add Workflow" class="reeditor_button" @onclick="AddWorkflow">添加</button>
 
         <span>&nbsp;</span>
     }
     @if (IsButtonEnabled("SaveWorkflow"))
     {
-        <button title="Save Workflow" class="reeditor_button" @onclick="SaveWorkflow">Save</button>
+        <button title="Save Workflow" class="reeditor_button" @onclick="SaveWorkflow">保存</button>
 
         <span>&nbsp;</span>
     }
-    <button class="reeditor_button @IsPressed(sort_wf, "button_depressed")" @onclick="(() => sort_wf = !sort_wf)">Arrange</button>
+    <button class="reeditor_button @IsPressed(sort_wf, "button_depressed")" @onclick="(() => sort_wf = !sort_wf)">排列</button>
     <span>&nbsp;</span>
 </div>
 
@@ -84,13 +84,13 @@
                 <Dropzone TItem="WorkflowData" OnItemDrop="@((i)=>WorkflowDragEnd(i))" Items="@(CurrentWorkflowName == null || CurrentWorkflowName == "ALL" ? WorkflowService.Workflows : WorkflowService.Workflows.Where(w => w.WorkflowName == CurrentWorkflowName).ToList())" Class="reeditor_dragdrop">
                     <WorkflowEditor workFlow="context" WorkflowDelete="DeleteWorkflow" />
                     <div class="sp_grid_workflow_children">
-                        <h5>Rules</h5>
-                        <button class="reeditor_button" @onclick="(() => WorkflowService.NewRule(context))">New</button>
+                        <h5>规则</h5>
+                        <button class="reeditor_button" @onclick="(() => WorkflowService.NewRule(context))">新建</button>
 
                         <Rules rules=context.Rules RulesChanged="WorkflowUpdate" />
-                        <h5>Global Params</h5>
+                        <h5>全局参数</h5>
                         <div>
-                            <button class="reeditor_button" @onclick="(e => { NewGlobalParam(context); })">New</button>
+                            <button class="reeditor_button" @onclick="(e => { NewGlobalParam(context); })">新建</button>
                         </div>
                         <ScopedParams scopedParams=context.GlobalParams ScopedParamsChanged="WorkflowUpdate" />
                     </div>
@@ -102,13 +102,13 @@
                 {
                     <WorkflowEditor workFlow="context" WorkflowDelete="DeleteWorkflow" />
                     <div class="sp_grid_workflow_children">
-                        <h5>Rules</h5>
-                        <button class="reeditor_button" @onclick="(() => WorkflowService.NewRule(context))">New</button>
+                        <h5>规则</h5>
+                        <button class="reeditor_button" @onclick="(() => WorkflowService.NewRule(context))">新建</button>
 
                         <Rules rules=context.Rules RulesChanged="WorkflowUpdate" />
-                        <h5>Global Params</h5>
+                        <h5>全局参数</h5>
                         <div>
-                            <button class="reeditor_button" @onclick="(e => { NewGlobalParam(context); })">New</button>
+                            <button class="reeditor_button" @onclick="(e => { NewGlobalParam(context); })">新建</button>
                         </div>
                         <ScopedParams scopedParams=context.GlobalParams ScopedParamsChanged="WorkflowUpdate" />
                     </div>
@@ -123,27 +123,27 @@
     <div hidden="@(ShowWorkflows)">
         @if (IsButtonEnabled("NewInputs"))
         {
-            <button title="New Input" class="reeditor_button" @onclick="NewInputs">New</button>
+            <button title="New Input" class="reeditor_button" @onclick="NewInputs">新建</button>
 
             <span>&nbsp;</span>
         }
         @if (IsButtonEnabled("DownloadInputs"))
         {
-            <a title="Download Inputs" class="reeditor_button" @attributes="@DownloadInputAttributes">Download</a>
+            <a title="Download Inputs" class="reeditor_button" @attributes="@DownloadInputAttributes">下载</a>
 
             <span>&nbsp;</span>
         }
         @if (IsButtonEnabled("ImportInputs"))
         {
-            <div class="reeditor_button"><InputFile title="Import Inputs" OnChange="@ImportInputs" />Import</div>
+            <div class="reeditor_button"><InputFile title="Import Inputs" OnChange="@ImportInputs" />导入</div>
 
             <span>&nbsp;</span>
         }
-        <button class="reeditor_button @IsPressed(sort_ip, "button_depressed")" @onclick="(() => sort_ip = !sort_ip)">Arrange</button>
+        <button class="reeditor_button @IsPressed(sort_ip, "button_depressed")" @onclick="(() => sort_ip = !sort_ip)">排列</button>
         <span>&nbsp;</span>
         @if (IsButtonEnabled("AddInput"))
         {
-            <button title="Add Input" class="reeditor_button" @onclick="AddInput">Add</button>
+            <button title="Add Input" class="reeditor_button" @onclick="AddInput">添加</button>
         }
 
         <div class="sp_grid_main" hidden="@(!WorkflowService.Inputs.Any())">

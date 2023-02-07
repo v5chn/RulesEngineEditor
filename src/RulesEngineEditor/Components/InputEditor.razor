@@ -8,7 +8,7 @@
 @if (Input != null)
 {
     <sp_grid_kvp>
-        <div>Input Name</div>
+        <div>输入名称</div>
     </sp_grid_kvp>
     <EditForm EditContext="@EditContext">
         <DataAnnotationsValidator />
@@ -23,12 +23,12 @@
                 </button>
             </div>
         </sp_grid_workflow>
-        <h5>Parameters</h5>
-        <button class="reeditor_button" title="Add Input Parameter" @onclick="AddParameter">Add</button>
-        <button class="reeditor_button @IsPressed(sort, "button_depressed")" @onclick="(() => sort = !sort)">Arrange</button>
+        <h5>参数</h5>
+        <button class="reeditor_button" title="Add Input Parameter" @onclick="AddParameter">添加</button>
+        <button class="reeditor_button @IsPressed(sort, "button_depressed")" @onclick="(() => sort = !sort)">排列</button>
         <sp_grid_kvp>
-            <div>Input Param Name</div>
-            <div>Value</div>
+            <div>输入参数名称</div>
+            <div>值</div>
         </sp_grid_kvp>
     </EditForm>
     @if (sort)
