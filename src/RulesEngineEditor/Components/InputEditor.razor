@@ -7,29 +7,24 @@
 
 @if (Input != null)
 {
-    <sp_grid_kvp>
-        <div>输入名称</div>
-    </sp_grid_kvp>
     <EditForm EditContext="@EditContext">
         <DataAnnotationsValidator />
         <ValidationSummary />
         <sp_grid_workflow>
             <div>
+                <div>输入名称</div>
+
                 <InputText title="Name" class="form-control" @bind-Value="@Input.InputRuleName" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
             </div>
             <div>
                 <button title="Delete Input" @onclick="@(e => DeleteInput())" class="btn btn-secondary">
                     <span class="oi oi-trash"></span>
-                </button>
+                删除</button>
             </div>
         </sp_grid_workflow>
         <h5>参数</h5>
         <button class="reeditor_button" title="Add Input Parameter" @onclick="AddParameter">添加</button>
         <button class="reeditor_button @IsPressed(sort, "button_depressed")" @onclick="(() => sort = !sort)">排列</button>
-        <sp_grid_kvp>
-            <div>输入参数名称</div>
-            <div>值</div>
-        </sp_grid_kvp>
     </EditForm>
     @if (sort)
     {

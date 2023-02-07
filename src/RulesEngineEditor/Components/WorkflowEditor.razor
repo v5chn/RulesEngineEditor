@@ -10,12 +10,12 @@
     <ValidationSummary />
     <sp_grid_workflow>
         <div>
-            <InputText placeholder="Workflow Name" title="Workflow Name" class="form-control" @bind-Value="@Name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+            <InputText placeholder="工作流名称" title="工作流名称" class="form-control" @bind-Value="@Name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
         </div>
         <div>
             <button title="Delete Workflow" @onclick="@(e => DeleteWorkflow())" class="btn btn-secondary">
                 <span class="oi oi-trash"></span>
-            </button>
+            删除</button>
         </div>
     </sp_grid_workflow>
 </EditForm>

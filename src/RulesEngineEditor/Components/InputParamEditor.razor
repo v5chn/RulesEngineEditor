@@ -5,42 +5,46 @@
 @using RulesEngineEditor.Models
 @inject RulesEngineEditor.Services.WorkflowService WorkflowService
 
-<EditForm EditContext="@EditContext">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <sp_grid_inputparameter>
-        <div>
-            <InputText title="Input Parameter Name" class="form-control" @bind-Value="@InputParam.Name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-        </div>
-        <div>
-            <InputTextArea title="Value" rows="5" form="Expression" class="form-control" @bind-Value="@InputParam.Value" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-        </div>
-        <div>
-            <button @onclick="@(e => InputParamDelete.InvokeAsync(InputParam))" class="btn btn-secondary m-1">
-                <span class="oi oi-trash"></span>
-            </button>
-        </div>
-    </sp_grid_inputparameter>
-</EditForm>
-@code {
-    [Parameter]
-    public InputParameter InputParam { get; set; }
+    <EditForm EditContext="@EditContext">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <sp_grid_inputparameter>
+            <div>
+                <div>输入参数名称</div>
 
-    [Parameter]
-    public EventCallback<InputParameter> InputParamDelete { get; set; }
+                <InputText title="Input Parameter Name" class="form-control" @bind-Value="@InputParam.Name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+            </div>
+            <div>
+                <div>值</div>
 
-    private EditContext EditContext;
+                <InputTextArea title="Value" form="Expression" class="form-control" @bind-Value="@InputParam.Value" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+            </div>
+            <div>
+                <button @onclick="@(e => InputParamDelete.InvokeAsync(InputParam))" class="btn btn-secondary m-1">
+                    <span class="oi oi-trash"></span>
+                删除</button>
+            </div>
+        </sp_grid_inputparameter>
+    </EditForm>
+    @code {
+        [Parameter]
+        public InputParameter InputParam { get; set; }
 
-    protected override void OnInitialized()
-    {
-        EditContext = new EditContext(InputParam);
-        EditContext.OnFieldChanged += EditContext_OnFieldChanged;
+        [Parameter]
+        public EventCallback<InputParameter> InputParamDelete { get; set; }
 
-        base.OnInitialized();
+        private EditContext EditContext;
+
+        protected override void OnInitialized()
+        {
+            EditContext = new EditContext(InputParam);
+            EditContext.OnFieldChanged += EditContext_OnFieldChanged;
+
+            base.OnInitialized();
+        }
+
+        private void EditContext_OnFieldChanged(object sender, FieldChangedEventArgs e)
+        {
+            WorkflowService.InputUpdate();
+        }
     }
-
-    private void EditContext_OnFieldChanged(object sender, FieldChangedEventArgs e)
-    {
-        WorkflowService.InputUpdate();
-    }
-}

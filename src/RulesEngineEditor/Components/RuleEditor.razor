@@ -8,31 +8,32 @@
 @using System.Text.Json.Serialization
 @inject RulesEngineEditor.Services.WorkflowService WorkflowService
 
-
-<sp_grid_rules>
-    <div>规则名称</div>
-    <div>操作</div>
-    <div>成功事件</div>
-    <div>错误消息</div>
-    <div>表达式</div>
-    <div>动作</div>
-    <div>激活</div>
-    <div>删除</div>
-</sp_grid_rules>
 <EditForm EditContext="@EditContext">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <sp_grid_rules>
         <div>
+            <div>规则名称</div>
+
             <InputText class="form-control" @bind-Value="@rule.RuleName" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
             @if (@rule.ExceptionMessage != "")
             {
                 <blockquote class="reeditor_blockquote @RuleStyle(rule)">@rule.ExceptionMessage</blockquote>
             }
         </div>
+
         <div>
+            <div>激活</div>
+
+            <InputCheckbox @bind-Value="@rule.Enabled" class="form-control">
+            </InputCheckbox>
+        </div>
+
+        <div>
+            <div>操作</div>
+
             <InputSelect ValueExpression="@(()=>rule.Operator)" Value="@rule.Operator" class="form-control" ValueChanged="((string value) => OnValueChanged(value))">
-                <option value="null"></option>
+                <option value="null">none</option>
                 <option value="And">&</option>
                 <option value="AndAlso">&&</option>
                 <option value="Or">|</option>
@@ -40,26 +41,42 @@
             </InputSelect>
         </div>
         <div>
-            <InputTextArea rows="5" class="form-control jsonTextArea" @bind-Value="@rule.SuccessEvent" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-        </div>
-        <div>
-            <InputTextArea rows="5" class="form-control jsonTextArea" @bind-Value="@rule.ErrorMessage" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-        </div>
-        <div>
-            <InputTextArea rows="5" form="Expression" class="form-control" @bind-Value="@rule.Expression" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-        </div>
-        <div>
-            <InputTextArea rows="5" form="Expression" class="form-control" @bind-Value="@Actions" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-        </div>
-        <div>
-            <InputCheckbox @bind-Value="@rule.Enabled" class="form-control" />
-        </div>
-        <div>
             <button @onclick="@(e => RuleDelete.InvokeAsync(rule))" class="btn btn-secondary">
                 <span class="oi oi-trash"></span>
+                <div>删除</div>
             </button>
         </div>
     </sp_grid_rules>
+    <sp_grid_rules>
+        <div>
+            <div>成功事件</div>
+
+            <InputTextArea class="form-control jsonTextArea" @bind-Value="@rule.SuccessEvent" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </InputTextArea>
+        </div>
+        <div>
+            <div>错误消息</div>
+
+            <InputTextArea class="form-control jsonTextArea" @bind-Value="@rule.ErrorMessage" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </InputTextArea>
+        </div>
+        <div>
+            <div>表达式</div>
+
+            <InputTextArea form="Expression" class="form-control jsonTextArea" @bind-Value="@rule.Expression" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </InputTextArea>
+        </div>
+
+    </sp_grid_rules>
+    <span>&nbsp;</span>
+    <sp_grid_rules>
+        <div>
+            <div>动作</div>
+            <InputTextArea form="Expression" class="form-control jsonTextArea" @bind-Value="@Actions" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </InputTextArea>
+        </div>
+    </sp_grid_rules>
+    <span>&nbsp;</span>
     <h5>本地参数</h5>
     <div>
         <button class="reeditor_button" title="New Local Param" @onclick="NewLocalParam">添加</button>
@@ -81,22 +98,22 @@
         get
         {
             return JsonNormalizer.Normalize(JsonSerializer.Serialize(rule.Actions, new JsonSerializerOptions
-                {
-                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                    IncludeFields = true,
-                    WriteIndented = true,
-                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                    PropertyNameCaseInsensitive = true,
-                    Converters = { new JsonStringEnumConverter() }
-                }));
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                IncludeFields = true,
+                WriteIndented = true,
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                PropertyNameCaseInsensitive = true,
+                Converters = { new JsonStringEnumConverter() }
+            }));
         }
         set
         {
             //RulesEngine.Models.RuleActions
             var actions = JsonSerializer.Deserialize<dynamic>(value, new JsonSerializerOptions
-                {
-                    Converters = { new DynamicJsonConverter() }
-                });
+            {
+                Converters = { new DynamicJsonConverter() }
+            });
 
             RuleActions newActions = new RuleActions();
             if ((actions as IDictionary<string, object>).ContainsKey("OnSuccess"))
